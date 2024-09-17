@@ -1,0 +1,16 @@
+Inaktív portok lekapcsolása:
+
+from netmiko import ConnectHandler
+cisco = {'device_type': 'cisco_ios','host': '209.165.30.193','username':
+'Alfa','password': 'cisco'}
+k = ConnectHandler(**cisco)
+output = k.send_command("show interfaces status")
+portok = [];
+for line in output.splitlines(): # szetvagjuk a kimenetet sorokra
+if 'notconnect' in line: # ha szerepel a sorban a trunking szovegreszlet
+sor = line.split() # szetdaraboljuk az adott sort
+portok.append(sor[0]) # betesszuk az int. neveket egy listaba
+for e in portok:
+o1 = k.send_config_set(["interface "+e, "shutdown"])
+print(o1)
+k.disconnect()

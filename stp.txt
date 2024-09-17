@@ -1,0 +1,18 @@
+spanning-tree
+spanning-tree mode rapid-pvst
+spanning-tree vlan 1 priority 4096
+spanning-tree portfast default
+exit
+
+spanning-tree
+spanning-tree mode rapid-pvst
+spanning-tree vlan 1 priority 28672
+spanning-tree portfast default
+exit
+
+
+spanning-tree
+spanning-tree mode rapid-pvst
+spanning-tree vlan 1 priority 32768
+spanning-tree portfast default
+exit

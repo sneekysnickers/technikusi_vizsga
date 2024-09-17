@@ -1,0 +1,114 @@
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Alfa
+!
+!
+!
+!
+!
+!
+!
+!
+no ip cef
+ipv6 unicast-routing
+!
+no ipv6 cef
+!
+!
+!
+username admin privilege 15 password 0 admin
+!
+!
+license udi pid CISCO1941/K9 sn FTX1524RH9O-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip domain-name ceg.local
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ ip address 209.165.50.193 255.255.255.224
+ duplex auto
+ speed auto
+ ipv6 address 2001:DB8:ACAD:C3::1/64
+ ipv6 ospf 6 area 0
+!
+interface GigabitEthernet0/1
+ ip address 209.165.40.193 255.255.255.224
+ duplex auto
+ speed auto
+!
+interface Serial0/1/0
+ ip address 209.165.30.193 255.255.255.224
+ ipv6 address 2001:DB8:ACAD:C1::1/64
+ ipv6 ospf 6 area 1
+ clock rate 2000000
+!
+interface Serial0/1/1
+ ip address 209.165.20.193 255.255.255.224
+ ipv6 address 2001:DB8:ACAD:C2::1/64
+ ipv6 ospf 6 area 1
+ clock rate 2000000
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 1
+ router-id 1.1.1.1
+ log-adjacency-changes
+ redistribute static subnets 
+ network 209.165.50.192 0.0.0.31 area 0
+ network 209.165.30.192 0.0.0.31 area 1
+ network 209.165.20.192 0.0.0.31 area 1
+ network 209.165.40.192 0.0.0.31 area 2
+!
+ipv6 router ospf 6
+ router-id 1.1.1.1
+ log-adjacency-changes
+ redistribute static 
+ passive-interface GigabitEthernet0/1
+!
+ip classless
+ip route 209.165.60.192 255.255.255.224 209.165.50.194 
+!
+ip flow-export version 9
+!
+ipv6 route 2001:DB8:ACAD:C4::/64 2001:DB8:ACAD:C3::2
+ipv6 route 2001:DB8:ACAD:C5::/64 2001:DB8:ACAD:C4::2
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+!
+line aux 0
+!
+line vty 0 4
+ login local
+ transport input ssh
+!
+!
+!
+end
